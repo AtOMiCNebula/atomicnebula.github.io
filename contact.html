@@ -1,0 +1,47 @@
+---
+layout: default
+title: Contact
+permalink: /contact/
+---
+
+<div class="preborder float-right">
+ <span class="bigger"><strong>E-Mail</strong></span>
+ <ul class="list-blank">
+  <li>Personal:&nbsp; <span id="email-personal">Nebula [at] Planet-Nebula.com</span></li>
+  <li>School:&nbsp; <span id="email-school">WeinerJD [at] UMich.edu</span></li>
+ </ul>
+ <span class="bigger"><strong>Instant Messenger (Not E-Mail)</strong></span>
+ <ul id="instmsgs" class="list-blank bottom">
+  <li><img src="{{ "/media/im-aim.png" | prepend: site.baseurl }}" alt="AOL Instant Messenger" />AtOMiCNebula</li>
+  <li><img src="{{ "/media/im-msn.png" | prepend: site.baseurl }}" alt="MSN Messenger" /><span id="im-msn">NebulaDJ [at] Hotmail.com</span></li>
+  <li><img src="{{ "/media/im-jabber.png" | prepend: site.baseurl }}" alt="Jabber" /><span id="im-jabber">AtOMiCNebula [at] Jabber.org</span></li>
+  <li><img src="{{ "/media/im-gtalk.png" | prepend: site.baseurl }}" alt="Google Talk" /><span id="im-gtalk">JDWeiner [at] GMail.com</span></li>
+ </ul>
+ <script type="text/javascript">
+
+function fix_email(id)
+{
+    var elt = document.getElementById(id);
+    elt.innerHTML = elt.innerHTML.replace(' [at] ', '<span>@</span>');
+}
+
+fix_email('email-personal');
+fix_email('email-school');
+fix_email('im-msn');
+fix_email('im-jabber');
+fix_email('im-gtalk');
+
+ </script>
+</div>
+<h2 class="bottom">Contacting Me!</h2>
+<p>
+ So you want to contact me.&nbsp; Please do!&nbsp; I will do my best to respond to all email sent to me.&nbsp;
+ However, please keep in mind that there may or may not be factors working against you:&nbsp; my studies, spam
+ filters, Murphy's Law, the nature of your email, my mood at the time of receiving your email, etc&hellip; If
+ you'd prefer, you're also welcome (and encouraged) to contact me by instant messenger.
+</p>
+<p>
+ I do ask that you send &ldquo;official&rdquo; (read: important) email to my listed school address, and more
+ casual email to my personal address.&nbsp; This helps me get to your email quicker, and also to keep my inboxes
+ better orgainzed and under control.&nbsp; For instant messengers, pick your favorite, and use that!
+</p>
