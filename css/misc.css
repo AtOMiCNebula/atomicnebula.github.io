@@ -1,0 +1,109 @@
+/** 
+ * Planet-Nebula.com CSS Stylesheet
+ * by Jeff Weiner
+ *
+ * Please don't rip me off without at least giving me the courtesy of letting
+ * me know about it.  Thanks! :)
+ **/	
+
+/* Base */
+body
+{ padding-top: 1.45em; padding-bottom: 1.45em; }
+#header
+{ font-weight: bold; margin-bottom: 2px; }
+#header #logo-separator
+{ display: none; }
+#header #logo-subtitle
+{ display: block; font-size: 0.4em; line-height: 1.25; font-weight: normal; }
+#pages
+{ padding-top: 2em; text-align: right; }
+#pages p
+{ display: inline; font-size: 1.5em; font-weight: bold; }
+#pages ul
+{ display: inline; margin: 0px; list-style: none; }
+#pages li
+{ display: inline; padding: 0px 0px 0px 10px; font-size: 1.5em; }
+/*#pages a.active
+{ background: #FFF url(../bar.gif) no-repeat center bottom; color: #C3593C; font-weight: bold; padding-bottom: 8px; }*/
+#footer hr
+{ margin-bottom: 5px; }
+#footer span
+{ font-size: 1.2em; line-height: 1.25; }
+a.cloaked-url
+{ text-decoration: none; color: #222; }
+h3
+{ font-weight: bold; }
+h3.no-bold
+{ font-weight: normal; }
+h4
+{ font-weight: bold; }
+h4.no-bold
+{ font-weight: normal; }
+
+/* Main */
+#me dfn a
+{ color: #222; }
+
+/* Contact */
+#instmsgs img
+{ vertical-align: text-bottom; padding-right: 0.5em; }
+.list-blank
+{ padding-left: 0px; list-style: none; }
+
+/* Projects-List */
+span.topics
+{ font-weight: bold; }
+span.topics a
+{ color: #000; }
+li.proj-left, li.proj-right
+{ clear: both; padding-top: 10px; }
+li.proj-left div.proj-img
+{ text-align: right; padding-top: 2px; }
+li.proj-left div.proj-text
+{ padding-left: 24px; margin-left: 15px; border-left: 1px solid #eee; }
+li.proj-left div.proj-text div.proj-innertext
+{ padding-right: 20px; }
+li.proj-right div.proj-img
+{ float: right; padding-top: 2px; margin-right: 0; }
+li.proj-right div.proj-text
+{ padding-right: 24px; margin-right: 25px; border-right: 1px solid #eee; }
+li.proj-right div.proj-text div.proj-innertext
+{ padding-left: 20px; }
+
+/* Projects-Detail */
+div.code-block
+{ padding: 5px; background-color: #000; color: #fff; }
+span.code-red
+{ color: red; }
+span.code-yellow
+{ color: yellow; }
+span.code-green
+{ color: lime; } /* why is green #080 and not #0f0? */
+span.code-cyan
+{ color: aqua; }
+span.code-blue
+{ color: blue; }
+span.code-magenta
+{ color: fuchsia; }
+div.code-float
+{ float: right; }
+div.code-float dfn
+{ padding-left: 3.0em; }
+
+/* General */
+.center
+{ text-align: center; }
+.right
+{ text-align: right; }
+div.preborder
+{ padding-left: 24px; margin-left: 15px; border-left: 1px solid #eee; }
+div.float-right
+{ float: right; }
+.smaller
+{ font-size: 0.8em; line-height: 1.25; }
+.bigger
+{ font-size: 1.2em; line-height: 1.25; }
+
+/* Gallery */
+#photo-desc
+{ margin: 0.75em; }

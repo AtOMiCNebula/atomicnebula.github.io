@@ -6,25 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <title>{{ site.title }}{% if page.title %} - {{ page.title }}{% endif %}</title>
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-    <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="{{ "/css/screen.css" | prepend: site.baseurl }}" media="screen,projection">
+    <link rel="stylesheet" href="{{ "/css/print.css" | prepend: site.baseurl }}" media="print" />
+    <!--[if IE]><link rel="stylesheet" href="{{ "/css/ie.css" | prepend: site.baseurl }}" media="screen,projection"><![endif]-->
+    <link rel="stylesheet" href="{{ "/css/misc.css" | prepend: site.baseurl }}" media="screen,projection,print">
+
+    <link rel="openid2.provider" href="https://openid.stackexchange.com/openid/provider">
+    <link rel="openid2.local_id" href="https://openid.stackexchange.com/user/cb281ab8-5659-4955-8646-5312a193a97f">
+
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   </head>
 
   <body>
 
-    {% include header.html %}
+    <div class="container showgridd">
+      <div class="span-7 center colborder">
+        <h1 id="header"><a href="/" class="cloaked-url">
+          Planet Nebula<span id="logo-separator">: </span><span id="logo-subtitle">The Personal Website of Jeff Weiner</span>
+        </a></h1>
+      </div>
+      <div id="pages" class="span-16 last">
+        <p>Pages:</p>
+        <ul class="list-blank">
+          <li><a href="/">Main</a></li>
+          {% for my_page in site.pages %}{% if my_page.title %}
+          <li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>
+          {% endif %}{% endfor %}
+        </ul>
+      </div>
+      <hr />
+      <div id="content" class="span-22 prepend-1 append-1 last">
 
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
+{{ content }}
+
+      </div>
+      <div id="footer" class="span-24 last center">
+        <hr />
+        <span><a href="{{ "/fixme/" | prepend: site.baseurl }}" class="cloaked-url">Planet Nebula</a> &copy; 2016 <a href="{{ "/fixme/" | prepend: site.baseurl }}" class="cloaked-url">Jeff Weiner</a></span>
       </div>
     </div>
 
-    {% include footer.html %}
-
   </body>
-
 </html>
