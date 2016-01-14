@@ -13,7 +13,7 @@ order: 1
 <li class="first last {% cycle 'proj-left','proj-right' %}">
 <h3 class="bottom"><a href="{{ project.url }}">{{ project.title }}</a></h3>
 <div class="span-7 proj-img">
- <a href="{{ project.url }}"><img src="{{ project.thumbnail | prepend: site.baseurl | prepend: "/media/portfolio/" }}" alt="{{ project.name }}" /></a>
+ <a href="{{ project.url }}"><img src="{{ site.baseurl }}/media{{ project.id }}/index.{% if project.thumbnail_ext %}{{ project.thumbnail_ext }}{% else %}png{% endif %}" alt="{{ project.name }}" /></a>
 </div>
 <div class="span-14 last proj-text">
  <div class="proj-innertext"><p>{{ project.excerpt }}</p>
