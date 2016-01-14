@@ -21,6 +21,12 @@ collections:
   portfolio:
     output: true
     permalink: /portfolio/:path/
+defaults:
+  - scope:
+      path: ""
+      type: portfolio
+    values:
+      layout: portfolio
 
 # Build settings
 markdown: kramdown
