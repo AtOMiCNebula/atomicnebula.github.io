@@ -13,4 +13,85 @@ thumbnail_ext: jpg
 topics: [Java]
 ---
 
-Placeholder (for JJ2)!
+  <p>
+   Back in 1998, Epic MegaGames (now <a href="http://www.epicgames.com/">Epic Games</a>, creators of the
+   Unreal/Gears of War franchises) released a video game named Jazz Jackrabbit 2.&nbsp; A sequel to one of
+   the most popular shareware games in 1994, Jazz Jackrabbit, it did a great job at expanding the
+   series.&nbsp; One of the notable features of the sequel was bringing it to the Windows environment; the
+   original was designed for MS-DOS.&nbsp; Another notable feature was the introduction of multiplayer over
+   local area networks, and the internet.
+  </p>
+  <p>
+   While local area networks allow video games to contact other machines in the immediate vicinity by
+   broadcasting packets to the local network subnet, this obviously isn't feasible for the internet.&nbsp;
+   As such, a "list server" daemon was also created by the game developers to run on a pre-determined
+   server that would help coordinate playing games online.&nbsp; The game would contact this server to obtain
+   a list of all the currently active games, and it would also contact the list server to notify it that the
+   user was hosting a game themselves.
+  </p>
+  <p>
+   There was a problem with the original build of the list server created by the developers, however.&nbsp;
+   It had an issue where malicious users could cause a Denial of Service attack by connecting to the server
+   as if it was going to inform it that it was going to host a server, but then not send any data.&nbsp; The
+   server would stop accepting connections of any kind while it waited for data from the malicious user
+   (a normal instance of the game would send this data immediately), but the server was not prepared to
+   handle a situation like this, either due to a threading issue (or lack of threading), or some other
+   &nbsp; The original developers couldn't be reached by the time this problem was discovered and had begun
+   to be abused, so the community had to take matters into their own hands.
+  </p>
+  <p>
+   I was fairly involved with the community around the time this decision was made (centered around a website
+   <a href="http://www.jazz2online.com/">Jazz 2 Online</a>), and took it upon myself to redesign the list
+   server to fix these issues, using Java.&nbsp; The most pressing issue to fix was that the server needed to
+   properly handle situations where these malicious clients would connect and not send any data when the server
+   was expecting it.&nbsp; Every time a socket was opened, it was given its own thread of execution, so even if
+   an individual thread stalled, it didn't affect the rest of the server, which continued on it's own as if
+   nothing was wrong.&nbsp; After the initial framework for the server was set up, it was put into production
+   by the heads of the community, and all the problems vanished.&nbsp; It was very gratifying to see my code
+   being so well received.
+  </p>
+  <p class="bottom">
+   In replicating the list server, there were (more or less) five different ways of communication I had to
+   implement in the server to have it behave as if it was the original server.&nbsp; These were:
+  </p>
+  <ul>
+   <li>Binary list protocol:&nbsp; The server sent a rather minimal amount of information to a requesting
+    client, mainly just the IP address and name of the server being hosted.&nbsp; Game clients would access
+    this information when displaying the active list of games to the user.</li>
+   <li>Game hosting protocol:&nbsp; The server simply listened for incoming information about a game, and
+    upon receiving information from the client, would add it to the list to be repeated back to clients.&nbsp;
+    It was the issues with this interface that prompted the redesign of the list server.</li>
+   <li>Statistics protocol:&nbsp; A simple interface that just repeated statistics and other general
+    information about the state of the server back to a connecting client.&nbsp; This was never used in an
+    official capacity, and was probably just designed to help with debugging of the server.</li>
+   <li>Server mirroring protocol:&nbsp; This was easily the most complicated protocol to reimplement.&nbsp;
+    Redundancy is a "good thing" in networks, and the original list server included support for running groups
+    of list servers, each one mirroring the other.&nbsp; They communicated with each other over this port; it
+    was not indended for clients, and had an access control list so that only pre-defined servers could initiate
+    a mirroring session.</li>
+   <li>ASCII list protocol:&nbsp; The server simply echoed back a full data dump of all the data it had about
+    the servers in a human-readable form to the connecting client.&nbsp; Like the statistics protocol, it was
+    never used in an official capacity by any client, but the community has written scripts to take advantage
+    of it (web-based games-in-progress scripts mainly).</li>
+  </ul>
+  <p>
+   After the original functionality had been more or less recreated, we (the group managing the list servers)
+   decided to get creative.&nbsp; I had been designing the server to be fairly modular, so that new
+   functionality could be added without any real changes needing to be added to the core of the list server.&nbsp;
+   The neatest feature we added was a remote administration interface.&nbsp; Upon authenticating, the admin was
+   presented with a list of options; servers could be delisted if needed, and malicious users could be added to
+   a ban list, among other smaller features.&nbsp; This helped with various other issues with malicious users;
+   just like we had figured out how the games communicated with the server and vice versa, so had other people,
+   who wrote programs to send false information about hosted games to the list servers.&nbsp; The admin interface
+   allowed us to fix these issues without affecting the rest of the hosted games; with the original list server,
+   it was necessary to restart the server, which also had the unfortunate effect of delisting any current games.
+  </p>
+  <p>
+   Overall, redesigning the list server was a great experience, and I learned a lot, and had the chance to make
+   something that was actually useful to people.&nbsp; Since it's a server daemon, and not exactly a program
+   for end-users, it didn't have much of an interface (indeed, the interface it does have isn't fully-functional
+   as is), since we realized a graphical interface wasn't really needed, since it was run on a computer, and then
+   left alone for extended periods of time.&nbsp; We invested our effort in designing a management layer over a
+   telnet session instead of through the GUI (as mentioned earlier).&nbsp; I have included a screenshot of it
+   below, but I'm sorry for not posting more...there's just not much to post.
+  </p>
