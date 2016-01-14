@@ -11,4 +11,92 @@ order: 2
 topics: [C++, Libraries, Linux, Windows]
 ---
 
-Placeholder (for Advanced Console)!
+<p>
+ This library makes it very easy to utilize some of the advanced features of C++ console windows.  You can easily add color to your application, and you can move the cursor around the screen without changing what's already been output.  Additionally, the screen can be partially or wholly erased.  The library is cross-platform (both Unix/Linux and Microsoft Visual Studio libraries are provided), so you won't lock yourself into to one platform by using it.
+</p>
+<p>
+ I originally set out to write this library for a class I taught (Intermediate C++) in the summer of 2008 for Camp CAEN, a summer camp at the University of Michigan's engineering school.  Having previously taken the course before as a student, I tried to think of ways I could enable the kids to make more interesting final projects without too much extra hassle.  Final projects for the course had typically involved boring text-based RPGs, and I felt like it was time for something new.  This library was easy enough for middle-/high-school aged children to use, and the kids really seemed to appreciate it.  On a completely unrelated note, the final projects for 2008's Intermediate C++ class were far more interesting than any of the previous year's projects, if I do say so myself.
+</p>
+<p>
+ To use the library, you first need to ensure <code>advconsole.cpp</code> and <code>advconsole.h</code> are in your C++ project's build path.  Second, you need to add the platform-specific version of the library to the build path as well (only one!):
+</p>
+<ul>
+ <li><code>advconsole.unix.cpp</code> should be included if you're targetting any Unix-/Linux-related operating system.</li>
+ <li><code>advconsole.win32.cpp</code> should be included if you're using Microsoft Visual Studio.</li>
+</ul>
+<p>
+ The library provides three interfaces (technically four, but I've never had a chance to figure out if the last one really worked well...or at all).  The four interfaces are the <code>Color()</code>, <code>Cursor()</code>, and <code>Erase()</code> objects (as well as the <code>Scroll()</code> object; more on this later).  Once one of the above objects has been created, simply send it to your output stream (<code>cout</code>) like you would any other data you wanted to display.
+</p>
+<h3 class="bottom">The Color Interface</h3>
+<p>
+ The <code>Color</code> interface allows for eight colors: red, green, blue, yellow, cyan, magenta, black, and white.  You can specify the color to apply to the foreground or the background.  Additionally, for foreground text, you can specify if you want the text to be bolded (though the effect isn't as pronounced as you might hope for).  Color names are named <code>AC_X</code>, where X is the name of the color (in all caps).  Similarly, the layer selection is either <code>AC_FOREGROUND</code> or <code>AC_BACKGROUND</code>, and font weight provided through either <code>AC_NORMAL</code> or <code>AC_BOLD</code>.  Two <code>Color</code> object constructors are provided:
+</p>
+<ul>
+ <li><code>Color(AC_COLOR color = AC_DEFAULT, AC_COLORLAYER layer = AC_FOREGROUND, AC_COLORWEIGHT weight = AC_NORMAL)</code></li>
+ <li><code>Color(AC_COLOR color, AC_COLORWEIGHT weight)</code><br />This interface is provided so that you don't need to specify foreground if you want to make bolded text (since you can't have a bolded background).</li>
+</ul>
+<h4 class="bottom"><strong>Example Usage</strong></h4>
+<div class="code-block append-bottom"><div class="code-float"><img src="{{ site.baseurl }}/media{{ page.id }}/colorex.png" alt="Cursor Example Output" /><br/><dfn>Example Output</dfn></div><pre class="top bottom"><span class="code-magenta">#include</span> <span class="code-red">&lt;iostream&gt;</span>
+<span class="code-magenta">#include</span> <span class="code-red">"advconsole.h"</span>
+<span class="code-yellow">using</span> std::cout; <span class="code-yellow">using</span> std::endl;
+<span class="code-yellow">using</span> <span class="code-green">namespace</span> AdvancedConsole;
+
+<span class="code-green">int</span> main()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="code-red">"Normal text"</span> &lt;&lt; endl;
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; Color(AC_RED) &lt;&lt; <span class="code-red">"Red"</span> &lt;&lt; Color() &lt;&lt; <span class="code-red">" text"</span> &lt;&lt; endl;
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; Color(AC_YELLOW) &lt;&lt; Color(AC_BLUE, AC_BACKGROUND) &lt;&lt; <span class="code-red">"Yellow on Blue text"</span> &lt;&lt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color(AC_DEFAULT, AC_BACKGROUND) &lt;&lt; endl;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-blue">// Needed to reset bg color</span>
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; Color(AC_GREEN, AC_BOLD) &lt;&lt; <span class="code-red">"Bold"</span> &lt;&lt; Color() &lt;&lt; <span class="code-red">" text"</span> &lt;&lt; endl;
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-yellow">return</span> <span class="code-red">EXIT_SUCCESS</span>;
+}</pre></div>
+<h3 class="bottom">The Cursor Interface</h3>
+<p>
+ The <code>Cursor</code> interface is a bit more straightforward.  You can move the cursor to an absolute position (<code>AC_ABSOLUTE</code>) on the screen, or you can move the cursor relative to its current position (<code>AC_RELATIVE</code>).  The screen's upper left coordinate is (1, 1), not (0, 0).  Only one <code>Cursor</code> constructor is provided:
+</p>
+<ul>
+ <li><code>Cursor(int row, int col, AC_CURSORMVMT mvmt = AC_ABSOLUTE)</code></li>
+</ul>
+<h4 class="bottom"><strong>Example Usage</strong></h4>
+<div class="code-block append-bottom"><div class="code-float"><img src="{{ site.baseurl }}/media{{ page.id }}/cursorex.png" alt="Cursor Example Output" /><br/><dfn>Example Output</dfn></div><pre class="top bottom"><span class="code-magenta">#include</span> <span class="code-red">&lt;iostream&gt;</span>
+<span class="code-magenta">#include</span> <span class="code-red">"advconsole.h"</span>
+<span class="code-yellow">using</span> std::cout; <span class="code-yellow">using</span> std::endl;
+<span class="code-yellow">using</span> <span class="code-green">namespace</span> AdvancedConsole;
+
+<span class="code-green">int</span> main()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="code-red">"This library sucks!"</span> &lt;&lt; Cursor(<span class="code-red">0</span>, <span class="code-red">-6</span>, AC_RELATIVE) &lt;&lt; <span class="code-red">"ro"</span> &lt;&lt; endl;
+&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; Cursor(<span class="code-red">3</span>, <span class="code-red">10</span>) &lt;&lt; <span class="code-red">"Look ma', no spaces!"</span> &lt;&lt; endl;
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-yellow">return</span> <span class="code-red">EXIT_SUCCESS</span>;
+}</pre>
+</div>
+<h3 class="bottom">The Erase Interface</h3>
+<p>
+ The <code>Erase</code> interface is also rather straightforward.  You can choose to erase everything before (<code>AC_BEFORE</code>) or after (<code>AC_AFTER</code>) the cursor, as well as the entire (<code>AC_ALL</code>) screen all at once.  Additionally, you can also specify to only operate on the current line (<code>AC_LINE</code>), instead of the whole screen (<code>AC_SCREEN</code>).  Again, only one <code>Erase</code> constructor is provided:
+</p>
+<ul>
+ <li><code>Erase(AC_ERASEREGION region = AC_ALL, AC_ERASETARGET target = AC_SCREEN)</code></li>
+</ul>
+<p>
+ <strong>IMPORTANT:</strong>  The Visual Studio library implementation will unconditionally erase the entire screen.  I got tired of surfing Microsoft's Console API specifications, and didn't bother to finish, since it seems people never want to do more than erase the whole screen.
+</p>
+<h3 class="bottom">The Scroll "Interface"</h3>
+<p>
+ I must admit, I'm not entirely sure how the scroll interface is supposed to work.  I assume the Unix version works, since I think I implemented it correctly according to the ANSI technical documents I read over.  However, it was more of an "oh, this looks interesting" type of thing that I never ended up trying to use.  As a result, I make no guarantee as to how it <em>actually</em> works.  Consider it experimental.
+</p>
+<p>
+ The <code>Scroll</code> interface allows you to specify both a number of lines to scroll, as well as which direction to scroll in, either up (<code>AC_UP</code>) or down (<code>AC_DOWN</code>).  As such, there's (again) only one constructor provided:
+</p>
+<ul>
+ <li><code>Scroll(int num, AC_SCROLLDIR dir = AC_DOWN)</code></li>
+</ul>
+<p>
+ <strong>IMPORTANT:</strong>  Given my shakiness with this interface that I mentioned earlier, I didn't even bother trying to port it to the Visual Studio implementation.  Sigh.
+</p>
+<h3 class="bottom">Implementation Details</h3>
+<p>
+ The Unix/Linux port is programmed using standard <a href="http://en.wikipedia.org/wiki/ANSI_escape_code#Codes">ANSI escape code sequences</a>, and should work without a problem using any terminal emulator that supports the given control sequences.  My guess is that you'll need to try to look pretty hard to find a terminal that <em>doesn't</em> support them, so I wouldn't worry about that.  If you're really interested, there's an <a href="http://invisible-island.net/xterm/ctlseqs/ctlseqs.html">extremely detailed</a> page that has more information than you ever wanted on various escape code sequences used throughout computing history.
+</p>
+<p>
+ The Microsoft Visual Studio port is written to use the <a href="http://msdn.microsoft.com/en-us/library/ms682087.aspx">Windows Console API</a>, since it doesn't support the escape sequences used in the Unix/Linux version (ignoring <a href="http://en.wikipedia.org/wiki/ANSI_escape_code#Windows_and_DOS">ANSI.SYS</a>, which was a MS-DOS thing).  As mentioned earlier, there's full support for the Color and Cursor interface, but I didn't have time to finish the Erase interface, or to begin the Scroll interface.  If this is a problem, then please let me know, and I'll see what I can do about finishing up the Windows port (since I probably should anyways).
+</p>
