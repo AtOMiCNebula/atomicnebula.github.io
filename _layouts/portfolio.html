@@ -4,3 +4,11 @@ layout: default
 
 <h2 class="bottom">Portfolio: {{ page.title }}</h2>
 {{ content }}
+{% if page.screenshots %}
+ <h3 class="bottom">Screenshots</h3>
+ <div class="span-20 prepend-1 append-bottom">
+  {% for screenshot in page.screenshots %}
+   <div class="span-4{% cycle '','','','',' last' %}"><a href="{{ site.baseurl }}/media{{ page.id }}/{{ screenshot.image }}"><img src="{{ site.baseurl }}/media{{ page.id }}/thumb_{{ screenshot.image }}" alt="{{ screenshot.title }}" /></a></div>
+  {% endfor %}
+ </div>
+{% endif %}
