@@ -19,12 +19,21 @@ collections:
   portfolio:
     output: true
     permalink: /portfolio/:path/
+  portfolio_topic:
+    output: true
+    permalink: /portfolio/topic/:path/
 defaults:
   - scope:
       path: ""
       type: portfolio
     values:
       layout: portfolio
+  - scope:
+      path: ""
+      type: portfolio_topic
+    values:
+      layout: portfolio-list
 
 # Build settings
 markdown: kramdown
+destination: /var/www/jekyll

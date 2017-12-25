@@ -1,22 +1,6 @@
 ---
-layout: default
+layout: portfolio-list
 title: Portfolio
 permalink: /portfolio/
 order: 1
 ---
-
-<h2 class="bottom">Portfolio</h2>
-<p><strong>Please Note:</strong>&nbsp; I'm in the process of adding things to this list.&nbsp; There's still plenty to be added!</p>
-<ul class="list-blank first last">
-{% assign portfolioSorted = site.portfolio | sort: 'order' %}
-{% for project in portfolioSorted %}
-<li class="first last {% cycle 'proj-left','proj-right' %}">
-<h3 class="bottom"><a href="{{ project.url }}">{{ project.title }}</a></h3>
-<div class="span-7 proj-img">
- <a href="{{ project.url }}"><img src="{{ site.baseurl }}/media{{ project.id }}/index.{% if project.thumbnail_ext %}{{ project.thumbnail_ext }}{% else %}png{% endif %}" alt="{{ project.name }}" /></a>
-</div>
-<div class="span-14 last proj-text">
- <div class="proj-innertext"><p>{{ project.excerpt }}</p>
- <span class="topics">Fancy Buzzwords:&nbsp; {% for project_topic in project.topics %}{% unless forloop.first %}, {% endunless %}{{ project_topic }}{% endfor %}</span>
-</div></div></li>
-{% endfor %}</ul>
