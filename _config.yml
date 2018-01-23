@@ -34,6 +34,9 @@ defaults:
     values:
       layout: portfolio-list
 
+exclude:
+  - CNAME
+
 # Build settings
 markdown: kramdown
 destination: /var/www/jekyll
