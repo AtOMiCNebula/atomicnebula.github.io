@@ -2,13 +2,15 @@
 layout: default
 ---
 
-<h2 class="bottom">Portfolio ({{ page.name }}) <small>[<a href="../../">reset topic</a>]</small></h2>
+{% assign topic = false %}{% if page.name != "portfolio.html" %}{% assign topic = true %}{% endif %}
+<h2 class="bottom">Portfolio{% if topic %} ({{ page.name }}) <small>[<a href="../../">reset topic</a>]</small>{% endif %}</h2>
 <p><strong>Please Note:</strong>&nbsp; I'm in the process of adding things to this list.&nbsp; There's still plenty to be added!</p>
 <p><em>{{ content }}</em></p>
 <ul class="list-blank first last">
 {% assign portfolioSorted = site.portfolio | sort: 'order' %}
 {% for project in portfolioSorted %}
 {% assign topic_seen = false %}
+{% if topic == false %}{% assign topic_seen = true %}{% endif %}
 {% for project_topic in project.topics %}{% if project_topic.name == page.name %}{% assign topic_seen = true %}{% endif %}{% endfor %}
 {% if topic_seen %}
 <li class="first last {% cycle 'proj-left','proj-right' %}">
